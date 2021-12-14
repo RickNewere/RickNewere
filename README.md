@@ -1,5 +1,5 @@
 - 👋 Hi, I’m @RickNewere
-- 🌱 I’m currently learning Java
+- 🌱 I’m currently learning Java, Python, C, C++ and Prolog
 
 <!---
 RickNewere/RickNewere is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
