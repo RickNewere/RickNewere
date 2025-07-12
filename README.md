@@ -1,2 +1,1 @@
 - 👋 Hi, I’m @RickNewere
-- 🌱 I’m currently learning Java, Python, C, C++ 
