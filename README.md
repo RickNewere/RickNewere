@@ -1,13 +1,11 @@
 # Hi there, I'm Riccardo 👋
 
-![Profile views](https://komarev.com/ghpvc/?username=RickNewere&label=Profile%20Views&color=0e75b6&style=flat)
-
 <!--START:STATS-->
-I like committing in the afternoon 🌆
+🌆 I like committing in the afternoon 
 
 ```text
 🌞 Morning               28 commits          ████░░░░░░░░░░░░░░░░░░░░░   14.29 % 
-🌆 Daytime               90 commits          ███████████░░░░░░░░░░░░░░   45.92 % 
+🌆 Afternoon             90 commits          ███████████░░░░░░░░░░░░░░   45.92 % 
 🌃 Evening               77 commits          ██████████░░░░░░░░░░░░░░░   39.29 % 
 🌙 Night                 1 commits           ░░░░░░░░░░░░░░░░░░░░░░░░░   00.51 % 
 ```
