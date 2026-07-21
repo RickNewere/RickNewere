@@ -23,6 +23,9 @@ const START = '<!--START:STATS-->';
 const END = '<!--END:STATS-->';
 const BLOCKS = 25;
 
+// Subject of the commit this workflow makes itself; excluded so it never inflates its own stats.
+const BOT_SUBJECT = 'Update commit activity stats';
+
 function getToken() {
   if (process.env.GH_TOKEN) return process.env.GH_TOKEN;
   const res = spawnSync('git', ['credential', 'fill'], { input: 'protocol=https\nhost=github.com\n\n', encoding: 'utf8' });
@@ -66,9 +69,10 @@ async function main() {
       : `https://github.com/${r.full_name}.git`;
     const cl = spawnSync('git', ['clone', '--bare', '--quiet', url, dir], { encoding: 'utf8' });
     if (cl.status !== 0) { console.error('clone failed', r.full_name); continue; }
-    const lg = spawnSync('git', ['--git-dir', dir, 'log', '--all', '--no-merges', '--pretty=format:%aI\t%ae'], { encoding: 'utf8', maxBuffer: 1 << 26 });
+    const lg = spawnSync('git', ['--git-dir', dir, 'log', '--all', '--no-merges', '--pretty=format:%aI\t%ae\t%s'], { encoding: 'utf8', maxBuffer: 1 << 26 });
     for (const ln of (lg.stdout || '').split('\n').filter(Boolean)) {
-      const [iso, email] = ln.split('\t');
+      const [iso, email, ...rest] = ln.split('\t');
+      if (rest.join('\t') === BOT_SUBJECT) continue;
       commits.push({ iso, email });
     }
   }
@@ -91,14 +95,15 @@ async function main() {
 
   const total = mine.length || 1;
   const icons = { Morning: '🌞', Daytime: '🌆', Evening: '🌃', Night: '🌙' };
+  const labels = { Morning: 'Morning', Daytime: 'Afternoon', Evening: 'Evening', Night: 'Night' };
   const phrase = {
-    Morning: "I'm an early bird, I like committing in the morning 🌞",
-    Daytime: 'I like committing in the afternoon 🌆',
-    Evening: 'I like committing in the evening 🌃',
-    Night: "I'm a night owl, I like committing at night 🌙",
+    Morning: "🌞 I'm an early bird, I like committing in the morning",
+    Daytime: '🌆 I like committing in the afternoon',
+    Evening: '🌃 I like committing in the evening',
+    Night: "🌙 I'm a night owl, I like committing at night",
   };
   const peak = Object.keys(tod).reduce((a, b) => (tod[b] > tod[a] ? b : a));
-  const todOut = ['Morning', 'Daytime', 'Evening', 'Night'].map(k => row(`${icons[k]} ${k}`, tod[k], (tod[k] / total) * 100));
+  const todOut = ['Morning', 'Daytime', 'Evening', 'Night'].map(k => row(`${icons[k]} ${labels[k]}`, tod[k], (tod[k] / total) * 100));
   const order = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   const bestDay = order.reduce((a, b) => (wd[b] > wd[a] ? b : a));
   const wdOut = order.map(k => row(k, wd[k], (wd[k] / total) * 100));
