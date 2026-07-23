@@ -1,0 +1,29 @@
+# Copy this file into each repo you commit to, at:
+#   .github/workflows/notify-profile-stats.yml
+#
+# On every push it tells RickNewere/RickNewere to regenerate the profile
+# README stats immediately. Requires a repo secret named STATS_DISPATCH_TOKEN
+# holding a Personal Access Token with permission to trigger dispatches on
+# RickNewere/RickNewere (classic PAT with "repo" scope, or a fine-grained PAT
+# scoped to that repo with Contents: read/write).
+
+name: Notify profile stats
+
+on:
+  push:
+
+permissions: {}
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger profile README update
+        env:
+          TOKEN: ${{ secrets.STATS_DISPATCH_TOKEN }}
+        run: |
+          curl -sf -X POST \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/RickNewere/RickNewere/dispatches \
+            -d '{"event_type":"refresh-stats"}'
