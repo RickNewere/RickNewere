@@ -15,6 +15,7 @@ import path from 'node:path';
 const MINE = new Set([
   'r.ranieri23@studenti.uniba.it',
   'rikirani10@gmail.com',
+  'edgenew28@gmail.com',
   '79905603+ricknewere@users.noreply.github.com',
   'ricknewere@users.noreply.github.com',
 ]);
