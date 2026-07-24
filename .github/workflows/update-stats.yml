@@ -2,8 +2,8 @@ name: Update commit stats
 
 on:
   schedule:
-    # Daily update at 16:30 Italian time (14:30 UTC)
-    - cron: "30 14 * * *"
+    # Daily update at 17:00 Italian time (15:00 UTC)
+    - cron: "0 15 * * *"
   workflow_dispatch:
   # Refresh on the profile repo's own commits
   push:
