@@ -5,6 +5,9 @@ on:
     # Daily fallback at 03:17 UTC
     - cron: "17 3 * * *"
   workflow_dispatch:
+  # Refresh on the profile repo's own commits
+  push:
+    branches: [main]
   # Fired by the notify workflow in other repos on every push
   repository_dispatch:
     types: [refresh-stats]
